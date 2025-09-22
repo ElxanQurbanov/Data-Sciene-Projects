@@ -1,0 +1,51 @@
+import streamlit as st
+
+class Todo:
+    def __init__(self):
+        st.title("to-do list")
+        if "tasks" not in st.session_state:
+            st.session_state.tasks = []
+    
+    def add_task(self):
+        new_task = st.text_input("add new task")
+        if st.button("add task"):
+            if new_task.strip():
+                st.session_state.tasks.append({"task": new_task.strip(), "done": False})
+                st.success(f"Task added {new_task}")
+            else:
+                st.warning("please enter valid task")
+                
+    def display_task(self):
+        st.divider()
+        st.subheader("tasks")
+        if st.session_state.tasks:
+            for i, item in  enumerate(st.session_state.tasks):
+                cols = st.columns([0.1, 0.7, 0.2])
+                done = cols[0].checkbox("", value = item["done"], key = f"done_{i}")
+                if done != item["done"]:
+                    st.session_state.tasks[i]["done"] = done
+                
+                if item["done"]:
+                    cols[1].markdown(f"~~{item['task']}~~")
+                else:
+                    cols[1].markdown(item["task"])
+                
+                if cols[2].button("🗑️ Delete", key=f"delete_{i}"):
+                    st.session_state.tasks.pop(i)
+                    st.rerun()
+        else:
+            st.info("No tasks yet. Add one above!")
+
+    def clear_all(self):
+        if st.button("❌ Clear All Tasks"):
+            st.session_state.tasks = []
+            st.success("All tasks cleared!")
+
+    def run(self):
+        self.add_task()
+        self.display_task()
+        self.clear_all()
+
+if __name__ == "__main__":
+    app = Todo()
+    app.run()
