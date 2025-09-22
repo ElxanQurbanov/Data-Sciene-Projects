@@ -37,7 +37,7 @@ class Todo:
             st.info("No tasks yet. Add one above!")
 
     def clear_all(self):
-        if st.button("❌ Clear All Tasks"):
+        if st.button("Clear All Tasks"):
             st.session_state.tasks = []
             st.success("All tasks cleared!")
 
@@ -49,3 +49,4 @@ class Todo:
 if __name__ == "__main__":
     app = Todo()
     app.run()
+
