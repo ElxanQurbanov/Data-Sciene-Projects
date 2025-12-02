@@ -31,3 +31,4 @@ def add_user(user: User):
             raise HTTPException(status_code=400, detail="User ID already exists")
     users.append(user)
     return {"message": "User added successfully"}
+
